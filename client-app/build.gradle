@@ -1,0 +1,41 @@
+plugins {
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'application'
+}
+mainClassName = 'pl.jlabs.client.Main'
+
+javafx {
+    version = "13"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+dependencies {
+//    implementation project(":shared:data-model")
+    implementation 'org.openjfx:javafx-fxml:14-ea+4'
+    implementation 'org.openjfx:javafx:14-ea+4@pom'
+    implementation 'org.apache.httpcomponents:httpmime:4.5.6'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.6'
+    implementation 'org.apache.commons:commons-csv:1.6'
+}
+
+task fatJar(type: Jar) {
+    group = 'build'
+    manifest {
+        attributes (
+                'Implementation-Title': 'FX Client Application',
+                'Implementation-Version': archiveVersion, //rootProject.version,
+                'Main-Class': 'pl.jlabs.client.Main'
+        )
+    }
+    from { (configurations.runtime).collect {it.isDirectory() ? it : zipTree(it)}} {
+        exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+    }
+    with jar
+}
+task createInfoFile(dependsOn: processResources) {
+    doLast {
+        new File("$buildDir/version.txt").withWriter {
+            w -> w.write(project.version.toString())
+        }
+    }
+}

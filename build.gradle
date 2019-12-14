@@ -1,0 +1,81 @@
+allprojects {
+
+}
+subprojects { subproject ->
+    apply plugin: 'java'
+//    apply plugin: 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    group = 'pl.jlabs'
+    version = '1.0'
+    sourceCompatibility = System.getProperty("java.version")
+    targetCompatibility = System.getProperty("java.version")
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies { //works when `apply plugin: 'java'` is added to subprojects or all projects
+        if (subproject.name != 'data-model' && subproject.name != 'utils') {
+            implementation project(":shared:data-model")
+            implementation project(":shared:utils")
+        }
+        compileOnly 'org.projectlombok:lombok:1.18.10'
+        annotationProcessor 'org.projectlombok:lombok:1.18.10'
+        testImplementation "junit:junit:4.12"
+    }
+}
+
+//TODO:: clean up the file
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//    }
+//    dependencies {
+//        classpath 'io.spring.gradle:dependency-management-plugin:1.0.8.RELEASE'
+//    }
+//}
+//plugins {
+//    id "io.spring.dependency-management" version "1.0.8.RELEASE"
+//}
+//allprojects {
+////    apply plugin: 'java'
+//    version = '1.0'
+//    task hello {
+//        doLast { task ->
+//            println "I'm $task.project.name"
+//        }
+//    }
+//    afterEvaluate { project -> //https://docs.gradle.org/current/userguide/build_lifecycle.html#sec:configuration_and_execution_of_a_single_project_build
+//        if (project.hasTests) {
+//            println "Adding test task to $project"
+//            project.task('test') { doLast { println "Running tests for $project"} }
+//        }
+//    }
+//}
+//all of those from the end of:
+//https://docs.gradle.org/current/userguide/build_lifecycle.html#build_lifecycle_events
+//gradle.afterProject { project ->
+//    if (project.state.failure) {
+//        println "Evaluation of $project FAILED"
+//    } else {
+//        println "Evaluation of $project succeeded"
+//    }
+//}
+//task ok
+//
+//task broken(dependsOn: ok) {
+//    doLast {
+//        throw new RuntimeException('broken')
+//    }
+//}
+//
+//gradle.taskGraph.beforeTask { Task task ->
+//    println "executing $task ..."
+//}
+//
+//gradle.taskGraph.afterTask { Task task, TaskState state ->
+//    if (state.failure) {
+//        println "FAILED"
+//    }
+//    else {
+//        println "done"
+//    }
+//}
