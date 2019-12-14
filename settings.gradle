@@ -5,18 +5,3 @@ include 'shared', 'shared:data-model', 'shared:utils'
 findProject(':shared:data-model')?.name = 'data-model'
 findProject(':shared:utils')?.name = 'utils'
 
-//println rootProject.name
-//println project(':server-module').name
-
-//TODO::
-// https://guides.gradle.org/creating-multi-project-builds/
-//project(':projectA').projectDir = new File(settingsDir, '../my-project-a')
-//project(':projectA').buildFileName = 'projectA.gradle'
-//includeFlat 'project3', 'project4'
-//The includeFlat method takes directory names as an argument.
-//These directories need to exist as siblings of the root project directory.
-//        The location of these directories are considered as child projects of the root project in the multi-project tree.
-//project(':projectA').projectDir = new File(settingsDir, '../my-project-a') //modifies project dir
-//project(':projectA').buildFileName = 'projectA.gradle' //changes the name of default build file
-//TODO::
-//https://www.petrikainulainen.net/programming/gradle/getting-started-with-gradle-creating-a-multi-project-build/
