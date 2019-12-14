@@ -38,7 +38,7 @@ task runClientApp {
     group = 'application'
     finalizedBy run
 }
-task fatJar(type: Jar) {
+task fatClientAppJar(type: Jar) {
     group = 'build'
     manifest {
         attributes (

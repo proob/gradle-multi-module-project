@@ -5,8 +5,8 @@ include 'shared', 'shared:data-model', 'shared:utils'
 findProject(':shared:data-model')?.name = 'data-model'
 findProject(':shared:utils')?.name = 'utils'
 
-println rootProject.name
-println project(':server-module').name
+//println rootProject.name
+//println project(':server-module').name
 
 //TODO::
 // https://guides.gradle.org/creating-multi-project-builds/
