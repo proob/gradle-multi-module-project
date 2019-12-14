@@ -1,10 +1,10 @@
-package pl.jlabs.server.servermodule;
+package pl.jlabs.server.server;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ServerModuleApplicationTests {
+class ServerApplicationTests {
 
     @Test
     void contextLoads() {

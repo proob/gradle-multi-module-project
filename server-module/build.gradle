@@ -16,6 +16,13 @@ configurations {
     }
 }
 
+springBoot { // this picked up by bootRun and bootJar tasks
+    mainClassName = 'pl.jlabs.server.server.ServerApplication'
+}
+//to simply use:
+//mainClassName = 'pl.jlabs.server.server.ServerApplication'
+//the 'application' plugin needs to be added
+
 dependencies {
     implementation project(":library-module")
     implementation 'org.modelmapper:modelmapper:2.3.5'
