@@ -1,23 +1,43 @@
 plugins {
-    id 'org.openjfx.javafxplugin' version '0.0.8'
     id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id "org.beryx.jlink" version "2.16.4"
 }
 mainClassName = 'pl.jlabs.client.ClientAppMain'
-
 javafx {
     version = "13"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
-
 dependencies {
-//    implementation project(":shared:data-model")
     implementation 'org.openjfx:javafx-fxml:14-ea+4'
-    implementation 'org.openjfx:javafx:14-ea+4@pom'
+    implementation 'org.openjfx:javafx:14-ea+4'
     implementation 'org.apache.httpcomponents:httpmime:4.5.6'
     implementation 'org.apache.httpcomponents:httpclient:4.5.6'
     implementation 'org.apache.commons:commons-csv:1.6'
 }
-
+compileJava {
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'javafx.controls',
+                '--add-modules', 'javafx.fxml'
+        ]
+        classpath = files()
+    }
+}
+run {
+    doFirst {
+        jvmArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'javafx.controls',
+                '--add-modules', 'javafx.fxml'
+        ]
+    }
+}
+task runClientApp {
+    group = 'application'
+    finalizedBy run
+}
 task fatJar(type: Jar) {
     group = 'build'
     manifest {

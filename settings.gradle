@@ -18,4 +18,5 @@ println project(':server-module').name
 //        The location of these directories are considered as child projects of the root project in the multi-project tree.
 //project(':projectA').projectDir = new File(settingsDir, '../my-project-a') //modifies project dir
 //project(':projectA').buildFileName = 'projectA.gradle' //changes the name of default build file
-
+//TODO::
+//https://www.petrikainulainen.net/programming/gradle/getting-started-with-gradle-creating-a-multi-project-build/
