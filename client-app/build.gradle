@@ -1,61 +1,74 @@
+import java.text.SimpleDateFormat
+
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.8'
     id "org.beryx.jlink" version "2.16.4"
 }
+
 mainClassName = 'pl.jlabs.client.ClientAppMain'
-javafx {
-    version = "13"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
-}
+
 dependencies {
-    implementation 'org.openjfx:javafx-fxml:14-ea+4'
-    implementation 'org.openjfx:javafx:14-ea+4'
     implementation 'org.apache.httpcomponents:httpmime:4.5.6'
     implementation 'org.apache.httpcomponents:httpclient:4.5.6'
     implementation 'org.apache.commons:commons-csv:1.6'
 }
-compileJava {
-    doFirst {
-        options.compilerArgs = [
-                '--module-path', classpath.asPath,
-                '--add-modules', 'javafx.controls',
-                '--add-modules', 'javafx.fxml'
-        ]
-        classpath = files()
+
+javafx {
+    version = "13"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+jlink {
+    launcher {
+        name = 'ClientAppExecutable'
     }
 }
-run {
-    doFirst {
-        jvmArgs = [
-                '--module-path', classpath.asPath,
-                '--add-modules', 'javafx.controls',
-                '--add-modules', 'javafx.fxml'
-        ]
-    }
+
+dependencies {
+    implementation 'org.apache.httpcomponents:httpmime:4.5.6'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.6'
+    implementation 'org.apache.commons:commons-csv:1.6'
 }
+
 task runClientApp {
     group = 'application'
     finalizedBy run
 }
-task fatClientAppJar(type: Jar) {
+task fatClientJar(type: Jar) {
     group = 'build'
     manifest {
         attributes (
-                'Implementation-Title': 'FX Client Application',
+                'Implementation-Title': 'Client App',
                 'Implementation-Version': archiveVersion, //rootProject.version,
-                'Main-Class': 'pl.jlabs.client.ClientAppMain'
+                'Main-Class': 'pl.jlabs.client.FatJarMain'
         )
     }
-    from { (configurations.runtime).collect {it.isDirectory() ? it : zipTree(it)}} {
-        exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
-    }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
-task createInfoFile(dependsOn: processResources) {
+task createInfoFile {
     doLast {
-        new File("$buildDir/version.txt").withWriter {
-            w -> w.write(project.version.toString())
+        new File("$buildDir/app-info.txt").withWriter {
+            w -> w.write("App version: " + project.version.toString())
         }
     }
 }
+//TODO:: move those tasks to separate file:
+task copyLicense {
+    dependsOn(createInfoFile)
+    outputs.file new File("$buildDir/LICENSE.txt")
+    doLast {
+        copy { from "LICENSE.txt" into "$buildDir" }
+    }
+}
+task versionTxt {
+    dependsOn(copyLicense)
+    doLast {
+        new File(buildDir, "version.txt").text = """Version: $version
+Buildtime: ${new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date())}
+Application-name: ${project.name}
+Author: Jacek Mazgaj
+"""
+    }
+}
+classes.dependsOn(versionTxt)

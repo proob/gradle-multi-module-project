@@ -1,18 +1,18 @@
 allprojects {
-
+    task hi {
+        doLast { task -> println "Hi from $task.project.name" }
+    }
 }
 subprojects { subproject ->
     apply plugin: 'java'
-//    apply plugin: 'io.spring.dependency-management' version '1.0.8.RELEASE'
     group = 'pl.jlabs'
     version = '1.0'
-    sourceCompatibility = System.getProperty("java.version")
-    targetCompatibility = System.getProperty("java.version")
+    sourceCompatibility = 1.13 //System.getProperty("java.version")
     repositories {
         jcenter()
         mavenCentral()
     }
-    dependencies { //works when `apply plugin: 'java'` is added to subprojects or all projects
+    dependencies {
         if (subproject.name != 'data-model' && subproject.name != 'utils') {
             implementation project(":shared:data-model")
             implementation project(":shared:utils")
@@ -22,6 +22,11 @@ subprojects { subproject ->
         testImplementation "junit:junit:4.12"
     }
 }
+//TODO:: Read this:
+//https://docs.gradle.org/current/userguide/working_with_files.html
+//javadoc 2 pdf (uses buildscript {...}):
+//https://github.com/sleroy/gradle-doc-plugin
+
 
 //TODO:: clean up the file
 //buildscript {
