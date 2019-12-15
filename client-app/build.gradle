@@ -30,45 +30,6 @@ dependencies {
     implementation 'org.apache.commons:commons-csv:1.6'
 }
 
-task runClientApp {
-    group = 'application'
-    finalizedBy run
-}
-task fatClientJar(type: Jar) {
-    group = 'build'
-    manifest {
-        attributes (
-                'Implementation-Title': 'Client App',
-                'Implementation-Version': archiveVersion, //rootProject.version,
-                'Main-Class': 'pl.jlabs.client.FatJarMain'
-        )
-    }
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}
-task createInfoFile {
-    doLast {
-        new File("$buildDir/app-info.txt").withWriter {
-            w -> w.write("App version: " + project.version.toString())
-        }
-    }
-}
-//TODO:: move those tasks to separate file:
-task copyLicense {
-    dependsOn(createInfoFile)
-    outputs.file new File("$buildDir/LICENSE.txt")
-    doLast {
-        copy { from "LICENSE.txt" into "$buildDir" }
-    }
-}
-task versionTxt {
-    dependsOn(copyLicense)
-    doLast {
-        new File(buildDir, "version.txt").text = """Version: $version
-Buildtime: ${new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date())}
-Application-name: ${project.name}
-Author: Jacek Mazgaj
-"""
-    }
-}
-classes.dependsOn(versionTxt)
+apply from: "tasks.gradle"
+
+

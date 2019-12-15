@@ -3,22 +3,23 @@ allprojects {
         doLast { task -> println "Hi from $task.project.name" }
     }
 }
-subprojects { subproject ->
+subprojects {
     apply plugin: 'java'
     group = 'pl.jlabs'
     version = '1.0'
-    sourceCompatibility = 1.13 //System.getProperty("java.version")
+    sourceCompatibility = 1.13 //System.getProperty("java.version") or "13" or JavaVersion.VERSION_13
     repositories {
         jcenter()
         mavenCentral()
     }
+    apply from: "${rootProject.projectDir}/commonDependencies.gradle"
+}
+subprojects { subproject ->
     dependencies {
+        //this is for avoiding the circular dependencies
         if (subproject.name != 'data-model' && subproject.name != 'utils') {
             implementation project(":shared:data-model")
             implementation project(":shared:utils")
         }
-        compileOnly 'org.projectlombok:lombok:1.18.10'
-        annotationProcessor 'org.projectlombok:lombok:1.18.10'
-        testImplementation "junit:junit:4.12"
     }
 }
