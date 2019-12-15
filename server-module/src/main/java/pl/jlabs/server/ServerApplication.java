@@ -1,4 +1,4 @@
-package pl.jlabs.server.server;
+package pl.jlabs.server;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;

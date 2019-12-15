@@ -1,8 +1,19 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven { url 'http://dl.bintray.com/sleroy/maven' }
+    }
+    dependencies {
+        classpath 'com.metrixware:gradle-doc-plugin:0.1.4'
+    }
+}
 plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.8'
     id "org.beryx.jlink" version "2.16.4"
 }
+apply plugin: 'pandoc'  //the pandoc executable needs to be installed on system
 
 mainClassName = 'pl.jlabs.client.ClientAppMain'
 

@@ -1,5 +1,8 @@
+defaultTasks('hi') //gets executed when running 'gradlew' without any argument
 allprojects {
     task hi {
+        group = "fun-tasks"
+        description = "Shows greeting from the project :)"
         doLast { task -> println "Hi from $task.project.name" }
     }
 }
@@ -11,6 +14,13 @@ subprojects {
     repositories {
         jcenter()
         mavenCentral()
+        maven {
+            credentials {
+                username = "${repoUser}"
+                password = "${repoPass}"
+            }
+            url "http://my.private.artifactory/url/goes/here"
+        }
     }
     apply from: "${rootProject.projectDir}/commonDependencies.gradle"
 }
