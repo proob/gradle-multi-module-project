@@ -9,6 +9,8 @@ The purpose of this project is to use Gradle as build tool and to show some of i
  * dividing the build script into separate files
 
 Project comes with embedded Gradle Wrapper, so use the `gradlew` command instead of `gradle` (if it is installed on the system).
+
+The project uses **Java 13** source target.
  
 ---
 Run `gradlew -q projects` to see the project and subprojects structure.
