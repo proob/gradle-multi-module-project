@@ -17,7 +17,7 @@ configurations {
 }
 
 springBoot { // this picked up by bootRun and bootJar tasks
-    mainClassName = 'pl.jlabs.server.server.ServerApplication'
+    mainClassName = 'pl.jlabs.server.ServerApplication'
 }
 //to simply use:
 //mainClassName = 'pl.jlabs.server.server.ServerApplication'
