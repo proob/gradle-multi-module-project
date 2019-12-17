@@ -15,6 +15,9 @@ plugins {
 }
 apply plugin: 'pandoc'  //the pandoc executable needs to be installed on system
 
+group = 'pl.jlabs.client'
+version = '0.1.0'
+
 mainClassName = 'pl.jlabs.client.ClientAppMain'
 
 dependencies {
